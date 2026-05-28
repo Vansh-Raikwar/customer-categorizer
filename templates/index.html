@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Categorizer - ML Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <i class="fa-solid fa-users-gear brand-icon"></i>
+                <h2>Categorizer</h2>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <a href="#" class="menu-item active" data-tab="profiler">
+                    <i class="fa-solid fa-user-astronaut"></i>
+                    <span>Customer Profiler</span>
+                </a>
+                <a href="#" class="menu-item" data-tab="explorer">
+                    <i class="fa-solid fa-database"></i>
+                    <span>Database Explorer</span>
+                </a>
+                <a href="#" class="menu-item" data-tab="insights">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Model Insights</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="accuracy-badge">
+                    <div class="pulse-ring"></div>
+                    <span class="badge-text">Model Accuracy: 97.7%</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-title-area">
+                    <h1>Customer Segmentation Hub</h1>
+                    <p class="subtitle">Predict, analyze, and target customer behaviors with high-precision CatBoost machine learning model</p>
+                </div>
+                <div class="header-status">
+                    <span class="status-indicator online"></span>
+                    <span class="status-text">Server: Online</span>
+                </div>
+            </header>
+
+            <!-- Dashboard Tab: Customer Profiler -->
+            <section id="tab-profiler" class="tab-content active">
+                <div class="grid-container">
+                    <!-- Left: Form Card -->
+                    <div class="card form-card">
+                        <div class="card-header">
+                            <i class="fa-solid fa-id-card-clip card-icon"></i>
+                            <h3>New Customer Profile</h3>
+                        </div>
+                        <form id="profiler-form">
+                            <!-- Section 1: Demographics -->
+                            <div class="form-section">
+                                <h4 class="section-title"><i class="fa-solid fa-circle-user"></i> Demographics</h4>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="Age">Age</label>
+                                        <input type="number" id="Age" name="Age" min="18" max="100" placeholder="e.g. 45" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Income">Annual Income ($)</label>
+                                        <input type="number" id="Income" name="Income" min="1000" max="200000" placeholder="e.g. 55000" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Education">Education Level</label>
+                                        <select id="Education" name="Education" required>
+                                            <option value="0">Basic</option>
+                                            <option value="1">High School</option>
+                                            <option value="2" selected>Graduation (Bachelor)</option>
+                                            <option value="3">Master</option>
+                                            <option value="4">PhD</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Marital Status">Marital Status</label>
+                                        <select id="Marital Status" name="Marital Status" required>
+                                            <option value="0" selected>Single / Divorced / Widowed</option>
+                                            <option value="1">Partnered / Married</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Parental Status">Parental Status</label>
+                                        <select id="Parental Status" name="Parental Status" required>
+                                            <option value="0">No Kids at Home</option>
+                                            <option value="1" selected>Has Kids at Home</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Children">Total Children</label>
+                                        <input type="number" id="Children" name="Children" min="0" max="5" placeholder="e.g. 1" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section 2: Spending Category -->
+                            <div class="form-section">
+                                <h4 class="section-title"><i class="fa-solid fa-basket-shopping"></i> Product Spending (Last 2 Years)</h4>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="Wines">Wines ($)</label>
+                                        <input type="number" id="Wines" name="Wines" min="0" placeholder="e.g. 200" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Meat">Meat ($)</label>
+                                        <input type="number" id="Meat" name="Meat" min="0" placeholder="e.g. 150" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Fruits">Fruits ($)</label>
+                                        <input type="number" id="Fruits" name="Fruits" min="0" placeholder="e.g. 30" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Fish">Fish ($)</label>
+                                        <input type="number" id="Fish" name="Fish" min="0" placeholder="e.g. 40" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Sweets">Sweets ($)</label>
+                                        <input type="number" id="Sweets" name="Sweets" min="0" placeholder="e.g. 20" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Gold">Gold ($)</label>
+                                        <input type="number" id="Gold" name="Gold" min="0" placeholder="e.g. 50" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section 3: Engagement Metrics -->
+                            <div class="form-section">
+                                <h4 class="section-title"><i class="fa-solid fa-chart-simple"></i> Purchase Channels & Loyalty</h4>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="Web">Web Purchases</label>
+                                        <input type="number" id="Web" name="Web" min="0" placeholder="e.g. 5" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Catalog">Catalog Purchases</label>
+                                        <input type="number" id="Catalog" name="Catalog" min="0" placeholder="e.g. 2" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Store">Store Purchases</label>
+                                        <input type="number" id="Store" name="Store" min="0" placeholder="e.g. 6" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Discount Purchases">Discount Purchases</label>
+                                        <input type="number" id="Discount Purchases" name="Discount Purchases" min="0" placeholder="e.g. 2" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="NumWebVisitsMonth">Monthly Web Visits</label>
+                                        <input type="number" id="NumWebVisitsMonth" name="NumWebVisitsMonth" min="0" placeholder="e.g. 7" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Recency">Recency (Days since last purchase)</label>
+                                        <input type="number" id="Recency" name="Recency" min="0" max="100" placeholder="e.g. 50" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Days_as_Customer">Enrollment Seniority (Days)</label>
+                                        <input type="number" id="Days_as_Customer" name="Days_as_Customer" min="4000" max="6000" placeholder="e.g. 4800" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Total Promo">Promotions Accepted (0-5)</label>
+                                        <input type="number" id="Total Promo" name="Total Promo" min="0" max="5" placeholder="e.g. 1" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" id="btn-predict">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> Classify Customer
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Right: Prediction Panel -->
+                    <div class="results-container flex-col">
+                        <!-- Initial State -->
+                        <div id="results-empty" class="card empty-card flex-col flex-center">
+                            <div class="animated-icon">
+                                <i class="fa-solid fa-fingerprint"></i>
+                            </div>
+                            <h3>Awaiting Customer Data</h3>
+                            <p>Complete the profile form and click "Classify Customer" to trigger real-time ML segmentation, metrics visualizations, and targeted marketing strategies.</p>
+                        </div>
+
+                        <!-- Prediction Outcome Card -->
+                        <div id="results-card" class="card result-card hidden">
+                            <div class="card-header justify-between">
+                                <span class="badge" id="segment-badge">Cluster X</span>
+                                <span class="rec-label"><i class="fa-solid fa-bullseye"></i> Prediction Result</span>
+                            </div>
+                            
+                            <div class="result-hero">
+                                <h2 id="segment-name">Elite/High-Value Shopper</h2>
+                                <p id="segment-description" class="segment-desc">Detailed cluster description goes here...</p>
+                            </div>
+                            
+                            <!-- Strategy Recommendations -->
+                            <div class="recommendations-area">
+                                <h4><i class="fa-solid fa-lightbulb"></i> Recommended Targeting Strategies</h4>
+                                <ul class="strategy-list" id="strategy-list">
+                                    <!-- Dynamic Strategies -->
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Comparison Visualizations -->
+                        <div id="charts-card" class="card chart-card hidden">
+                            <div class="card-header">
+                                <i class="fa-solid fa-chart-pie card-icon"></i>
+                                <h3>Spending Profile Comparison</h3>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="spending-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dashboard Tab: Database Explorer -->
+            <section id="tab-explorer" class="tab-content hidden">
+                <div class="card">
+                    <div class="card-header explorer-controls justify-between flex-wrap gap-md">
+                        <div class="flex-row flex-center gap-sm">
+                            <i class="fa-solid fa-database card-icon"></i>
+                            <h3>Clustered Database</h3>
+                        </div>
+                        <div class="controls-actions flex-row gap-sm flex-wrap">
+                            <select id="filter-cluster" class="form-select">
+                                <option value="">All Segments</option>
+                                <option value="0">Cluster 0 (Elite Spenders)</option>
+                                <option value="1">Cluster 1 (Budget Seekers)</option>
+                                <option value="2">Cluster 2 (Balanced Families)</option>
+                            </select>
+                            <button class="btn btn-secondary btn-icon" id="btn-refresh"><i class="fa-solid fa-rotate"></i> Refresh</button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table" id="db-table">
+                            <thead>
+                                <tr>
+                                    <th>Age</th>
+                                    <th>Income ($)</th>
+                                    <th>Spending ($)</th>
+                                    <th>Wines ($)</th>
+                                    <th>Meat ($)</th>
+                                    <th>Store</th>
+                                    <th>Web Visits</th>
+                                    <th>Segment</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Dynamic database rows -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-pagination justify-between flex-center">
+                        <span class="pagination-info" id="pagination-info">Showing 0 to 0 of 0 records</span>
+                        <div class="pagination-buttons flex-row gap-xs">
+                            <button class="btn btn-secondary btn-small" id="btn-prev" disabled><i class="fa-solid fa-chevron-left"></i> Prev</button>
+                            <button class="btn btn-secondary btn-small" id="btn-next" disabled>Next <i class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dashboard Tab: Model Insights -->
+            <section id="tab-insights" class="tab-content hidden">
+                <div class="insights-grid">
+                    <!-- Column 1: Model parameters -->
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fa-solid fa-sliders card-icon"></i>
+                            <h3>CatBoost Parameters</h3>
+                        </div>
+                        <div class="param-list">
+                            <div class="param-item">
+                                <span class="param-label">Algorithm</span>
+                                <span class="param-value code-font">CatBoostClassifier</span>
+                            </div>
+                            <div class="param-item">
+                                <span class="param-label">Iterations</span>
+                                <span class="param-value code-font">200</span>
+                            </div>
+                            <div class="param-item">
+                                <span class="param-label">Depth</span>
+                                <span class="param-value code-font">4</span>
+                            </div>
+                            <div class="param-item">
+                                <span class="param-label">Learning Rate</span>
+                                <span class="param-value code-font">0.1</span>
+                            </div>
+                            <div class="param-item">
+                                <span class="param-label">L2 Leaf Regularization</span>
+                                <span class="param-value code-font">5</span>
+                            </div>
+                            <div class="param-item">
+                                <span class="param-label">Accuracy Score</span>
+                                <span class="param-value success-text bold">97.77%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Segment Profiles Breakdown -->
+                    <div class="card flex-col">
+                        <div class="card-header">
+                            <i class="fa-solid fa-tags card-icon"></i>
+                            <h3>Segment Profile Breakdowns</h3>
+                        </div>
+                        <div class="profiles-breakdown scrollable-y">
+                            <div class="profile-breakdown-card cluster-0">
+                                <div class="breakdown-header justify-between">
+                                    <h5>Cluster 0: Elite/High-Value Spenders</h5>
+                                    <span class="breakdown-metric">Avg. Income: ~$76k</span>
+                                </div>
+                                <p>This segment represents the upper income class. They have an extremely high wine and meat spending profile, shop largely through physical store locations and catalog offers, and show minimal interest in discount offers.</p>
+                            </div>
+                            <div class="profile-breakdown-card cluster-1">
+                                <div class="breakdown-header justify-between">
+                                    <h5>Cluster 1: Budget Seekers</h5>
+                                    <span class="breakdown-metric">Avg. Income: ~$32k</span>
+                                </div>
+                                <p>Thrifty, lower-income buyers who are highly coupon and deal-responsive. They visit the website frequently (highest monthly web visits) but make very small individual transactions.</p>
+                            </div>
+                            <div class="profile-breakdown-card cluster-2">
+                                <div class="breakdown-header justify-between">
+                                    <h5>Cluster 2: Balanced Mid-Tier Families</h5>
+                                    <span class="breakdown-metric">Avg. Income: ~$58k</span>
+                                </div>
+                                <p>The middle-income consumer class. They are mostly established families showing stable, uniform purchasing habits across all store types, catalog sales, and internet purchases.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <!-- Custom Main Script -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

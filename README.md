@@ -1,167 +1,153 @@
+# 📊 Customer Categorizer ML Dashboard
 
-# Customer Personality Segmentation
+[![Python](https://img.shields.ms/badge/Python-3.10%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
+[![Flask](https://img.shields.ms/badge/Flask-3.0%2B-green?logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![CatBoost](https://img.shields.ms/badge/CatBoost-1.2%2B-yellow)](https://catboost.ai/)
+[![Vercel Deployment](https://img.shields.ms/badge/Vercel-Deployment-black?logo=vercel&logoColor=white)](https://vercel.com/)
+[![CI Pipeline](https://img.shields.ms/badge/CI-GitHub--Actions-blue?logo=github-actions&logoColor=white)](https://github.com/features/actions)
 
-## Problem statement
+An industry-level, production-grade Customer Segmentation Web Application. It loads a pre-trained **CatBoost classifier** (achieving **97.77% accuracy**) to predict customer personas in real-time, displays interactive spending analytics using **Chart.js**, allows database exploration with advanced pagination, and features a sleek glassmorphic dark-theme UI.
 
-In this data science project, you will build a machine learning system which will be able predict the personality of the customer using machine learning algorithms. This project will be very usefull for malls, various stores and companies which are product based. Based on customer's personal details and purchase details, we can cluster them and we can predict the customer's cluster number using classification techniques.
+The application is configured to run locally or as a **Serverless Function** on the **Vercel** cloud hosting platform.
 
-## Solution Proposed
+---
 
-Now the question is how to dynamically predict the cluster of the customer ?. One of the approaches which we can use of machine learning approach, where we can cluster the customer based on the details we have and predict the cluster type based on the domain knowledge and leverage previous customer data to predict the cluster.
+## ✨ Core Features
 
-Dataset used
- <html>
-<a href="https://github.com/entbappy/Branching-tutorial/blob/master/marketing_campaign.zip"> Dataset Link</a>
-</html>
+*   **🧪 Live Customer Profiler**: A categorized, multi-step input form covering demographic attributes, product purchase habits, and channel loyalty metrics.
+*   **🎯 Real-time Segment Classification**: Displays the predicted segment profile immediately upon submission, with personalized target marketing strategies based on cluster demographics.
+*   **📊 Spending Analytics Dashboard**: A responsive dual-dataset Bar Chart rendered dynamically using **Chart.js**, comparing the input customer's profile directly against the average profile of their predicted cohort.
+*   **🗄️ Database Explorer Portal**: A fast, client-side table showing the clustered customer database (`data/clustered_data.csv`) with server-side paginated queries, refresh states, and segment category filtering.
+*   **🧠 Model Insights Card**: Exhaustive parameter details of the CatBoost model (e.g. Iterations: 200, Depth: 4) and detailed descriptive breakdowns of K-Means clusters.
 
+---
 
-
-## Tech Stack Used
-
-1. Python
-2. FastAPI
-3. Machine learning algorithms
-4. Docker
-5. MongoDB
-
-## Infrastructure required
-
-1. AWS S3
-2. Azure
-3. Github Actions
-
-## How to run
-
-Before you run this project make sure you have MongoDB Atlas account and you have the shipping dataset into it.
-
-Step 1. Cloning the repository.
+## 🏗️ Project Architecture
 
 ```
-
-git clone https://github.com/Machine-Learning-01/Customer_segmentation.git
-
+customer-categorizer/
+│
+├── .github/workflows/
+│   └── ci.yml              # Automated testing and quality gate CI pipeline
+│
+├── data/
+│   ├── clustered_data.csv  # Base clustered dataset
+│   └── marketing_campaign.csv
+│
+├── model/
+│   └── catboost_model.pkl  # Pre-trained serialization CatBoost classifier
+│
+├── templates/
+│   └── index.html          # Core single-page layout
+│
+├── static/
+│   ├── css/
+│   │   └── style.css       # Premium glassmorphism dark-theme styling
+│   └── js/
+│       └── main.js         # Tab switching, prediction submissions, and Chart.js mapping
+│
+├── tests/
+│   └── test_app.py         # Pytest backend endpoint test suite
+│
+├── app.py                  # Core Flask server and prediction API logic
+├── vercel.json             # Vercel serverless deployment specification
+├── requirements.txt        # Production packages
+└── test-requirements.txt   # Linting and testing dev-dependencies
 ```
 
-Step 2. Create a conda environment.
+### Data Flow Diagram
 
 ```
-
-conda create --prefix venv python=3.7 -y
-
+[Web UI Form] ──(AJAX JSON Payload)──> [Flask Predict API]
+                                                │
+                                        (Validation & Defaults)
+                                                │
+                                     [CatBoost Classifier]
+                                                │
+                                        (Inference: Cluster ID)
+                                                │
+                                    [SEGMENT_PROFILES Mapping]
+                                                │
+[Visual Chart.js] <──(JSON Response)── [API Stats Comparison]
 ```
 
-```
+---
 
-conda activate venv/
+## 🛠️ Local Installation & Setup
 
-```
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/Vansh-Raikwar/customer-categorizer.git
+   cd customer-categorizer
+   ```
 
-Step 3. Install the requirements
+2. **Initialize Python Virtual Environment**:
+   ```bash
+   python -m venv venv
+   # On Windows (PowerShell):
+   .\venv\Scripts\Activate.ps1
+   # On macOS/Linux:
+   source venv/bin/activate
+   ```
 
-```
+3. **Install Dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-pip install -r requirements.txt
+4. **Launch the Development Server**:
+   ```bash
+   python app.py
+   ```
+   Open your browser and navigate to [http://127.0.0.1:5000/](http://127.0.0.1:5000/).
 
-```
+---
 
-Step 4. Export the environment variable
+## 🚀 Vercel Cloud Deployment
 
-```bash
+The project is fully pre-configured for serverless execution using the `vercel.json` descriptor.
 
-export AWS_ACCESS_KEY_ID=<AWS_ACCESS_KEY_ID>
+### Continuous Deployment via GitHub (Recommended)
+1. Commit and push your code to your GitHub repository:
+   ```bash
+   git add .
+   git commit -m "feat: setup Flask app, Vercel serverless configs, and tests"
+   git push -u origin main
+   ```
+2. Log in to [Vercel](https://vercel.com/) and click **New Project**.
+3. Import your `customer-categorizer` repository.
+4. Vercel will automatically detect the Python configuration and deploy your application as a serverless Flask app. Every subsequent push to `main` will automatically build a new production deployment.
 
+### Manual CLI Deployment
+1. Install the Vercel CLI:
+   ```bash
+   npm install -g vercel
+   ```
+2. Deploy the application:
+   ```bash
+   vercel        # Deploy preview env
+   vercel --prod # Deploy to live production
+   ```
 
-export AWS_SECRET_ACCESS_KEY=<AWS_SECRET_ACCESS_KEY>
+---
 
+## 🧪 Testing & Automated CI Pipeline
 
-export AWS_DEFAULT_REGION=<AWS_DEFAULT_REGION>
+The project includes strict development quality gates. To verify code locally, run:
 
+1. **Install Dev Dependencies**:
+   ```bash
+   pip install -r test-requirements.txt
+   ```
+2. **Execute Pytest Unit Tests**:
+   ```bash
+   pytest tests/
+   ```
+3. **Execute Linting and Code Style Checks**:
+   ```bash
+   black --check .
+   flake8 .
+   ```
 
-export MONGODB_URL= <MONGODB_URL>
-
-
-```
-
-Step 5. Run the application server
-
-```
-
-python app.py
-
-```
-
-Step 6. Train application
-
-```bash
-
-http://localhost:5000/train
-
-```
-
-Step 7. Prediction application
-
-```bash
-
-http://localhost:5000/predict
-
-```
-
-## Run locally
-
-1. Check if the Dockerfile is available in the project directory
-2. Build the Docker image
-
-```
-
-docker build --build-arg AWS_ACCESS_KEY_ID=<AWS_ACCESS_KEY_ID> --build-arg AWS_SECRET_ACCESS_KEY=<AWS_SECRET_ACCESS_KEY> --build-arg AWS_DEFAULT_REGION=<AWS_DEFAULT_REGION> --build-arg MONGODB_URL=<MONGODB_URL> . 
-
-```
-
-3. Run the Docker image
-
-```
-
-docker run -d -p 5000:5000 <IMAGE_NAME>
-
-```
-
-## Project Architecture -
-
-![WhatsApp Image 2022-09-22 at 15 29 19](https://user-images.githubusercontent.com/71321529/192722336-54016f79-89ef-4c8c-9d71-a6e91ebab03f.jpeg)
-
-## Data Collection Architecture -
-
-![WhatsApp Image 2022-09-22 at 15 29 10](https://user-images.githubusercontent.com/71321529/192721926-de265f9b-f301-4943-ac7d-948bff7be9a0.jpeg)
-
-## Deployment Architecture -
-
-![deployment](https://user-images.githubusercontent.com/104005791/199660875-c8e63457-432a-44cb-8a95-800870f3da15.png)
-
-## Models Used
-
-* [K-Means](https://www.javatpoint.com/k-means-clustering-algorithm-in-machine-learning)
-* [LogisticRegression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html)
-
-From these above models after hyperparameter optimization we selected these two models which were K-Means for clustering and Logistic Regression for classification and used the following in Pipeline.
-
-* GridSearchCV is used for Hyperparameter Optimization in the pipeline.
-
-## `src` is the main package folder which contains
-
-**Components** : Contains all components of Machine Learning Project
-
-- Data Ingestion
-- Data Validation
-- Data Transformation
-- Data Clustering
-- Model Trainer
-- Model Evaluation
-- Model Pusher
-
-**Custom Logger and Exceptions** are used in the Project for better debugging purposes.
-
-## Conclusion
-
-- This Project can be used in real-life by Users.
-
-
+### GitHub Actions Workflow
+The `.github/workflows/ci.yml` pipeline automatically triggers on all pushes and pull requests to `main`, validating lint standards and verifying that all unit tests pass before code is merged.
