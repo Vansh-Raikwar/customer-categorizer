@@ -1,10 +1,10 @@
 # 📊 Customer Categorizer ML Dashboard
 
-[![Python](https://img.shields.ms/badge/Python-3.10%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
-[![Flask](https://img.shields.ms/badge/Flask-3.0%2B-green?logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
-[![CatBoost](https://img.shields.ms/badge/CatBoost-1.2%2B-yellow)](https://catboost.ai/)
-[![Vercel Deployment](https://img.shields.ms/badge/Vercel-Deployment-black?logo=vercel&logoColor=white)](https://vercel.com/)
-[![CI Pipeline](https://img.shields.ms/badge/CI-GitHub--Actions-blue?logo=github-actions&logoColor=white)](https://github.com/features/actions)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-3.0%2B-green?logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![CatBoost](https://img.shields.io/badge/CatBoost-1.2%2B-yellow)](https://catboost.ai/)
+[![Vercel Deployment](https://img.shields.io/badge/Vercel-Deployment-black?logo=vercel&logoColor=white)](https://vercel.com/)
+[![CI Pipeline](https://img.shields.io/badge/CI-GitHub--Actions-blue?logo=github-actions&logoColor=white)](https://github.com/features/actions)
 
 An industry-level, production-grade Customer Segmentation Web Application. It loads a pre-trained **CatBoost classifier** (achieving **97.77% accuracy**) to predict customer personas in real-time, displays interactive spending analytics using **Chart.js**, allows database exploration with advanced pagination, and features a sleek glassmorphic dark-theme UI.
 
